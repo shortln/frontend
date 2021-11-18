@@ -1,5 +1,10 @@
+# ide
+.idea
+
+# lib
 node_modules
 .DS_Store
-dist
-dist-ssr
 *.local
+
+# build product
+dist
