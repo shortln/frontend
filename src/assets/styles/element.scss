@@ -1,0 +1,7 @@
+@forward "element-plus/theme-chalk/src/common/var" with (
+  $colors: (
+    "primary": ("base": #2b64f3),
+  ),
+);
+
+@use "element-plus/theme-chalk/src/index" as *;
