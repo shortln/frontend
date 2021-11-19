@@ -1,12 +1,31 @@
 <template>
   <div class="top-bar">
     <div class="favicon">Short <span class="suffix">ln</span></div>
-    <el-icon class="navigation" size="20px"><more-filled/></el-icon>
+    <div class="icons">
+      <el-icon
+        v-if="isDark"
+        class="sunny"
+        @click="isDark = false">
+        <sunny/>
+      </el-icon>
+      <el-icon
+        v-else
+        class="moon"
+        @click="isDark = true">
+        <moon/>
+      </el-icon>
+      <el-icon class="navigation">
+        <more-filled/>
+      </el-icon>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { MoreFilled } from '@element-plus/icons'
+import { ref } from 'vue'
+import { MoreFilled, Moon, Sunny } from '@element-plus/icons'
+
+const isDark = ref(false)
 </script>
 
 <style scoped lang="scss">
@@ -20,6 +39,7 @@ div.top-bar {
   width: calc(100% - #{$pad-between * 2});
   height: 72px;
   background-color: var(--color-primary);
+  box-shadow: 0 0 16px gray;
 
   > div.favicon {
     color: #fff;
@@ -35,12 +55,30 @@ div.top-bar {
     }
   }
 
-  > i.el-icon.navigation {
-    color: #fff;
-    cursor: pointer;
-    transition: .3s;
+  > div.icons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    &:hover { color: #ccc; }
+    > i.el-icon {
+      --font-size: 25px;
+      padding: 5px;
+      color: #ccc;
+      cursor: pointer;
+      transition: .3s;
+
+      &.moon:hover {
+        color: yellow;
+        filter: drop-shadow(0 0 4px yellow);
+      }
+
+      &.sunny:hover {
+        color: orange;
+        filter: drop-shadow(0 0 4px orange);
+      }
+
+      &.navigation:hover { color: #fff; }
+    }
   }
 }
 </style>
