@@ -94,6 +94,7 @@ div.top-bar {
       color: #ccc;
       cursor: pointer;
       transition: 0.3s;
+      user-select: none;
       &.moon:hover {
         color: yellow;
         filter: drop-shadow(0 0 4px yellow);
