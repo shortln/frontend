@@ -26,6 +26,7 @@
       </div>
     </div>
     <div class="container">
+      <el-empty description="目前还没有选择短链"/>
     </div>
   </div>
 </template>
@@ -42,7 +43,7 @@ div.center {
   margin: 20px #{$mar-between};
   width: calc(100% - #{$mar-between * 2});
   > div.left-panel {
-    padding: 0 10px;
+    padding: 0 20px;
     width: 300px;
     > div.title {
       display: flex;
@@ -61,7 +62,7 @@ div.center {
       }
       &:hover {
         border: 1px solid var(--color-primary);
-        box-shadow: 0 0 16px gray;
+        box-shadow: 0 0 16px var(--color-shandow);
       }
       &.active {
         border: 1px solid var(--color-primary);
@@ -79,7 +80,7 @@ div.center {
       > div.child {
         display: flex;
         padding: 5px;
-        margin: 10px 5px 0 40px;
+        margin: 10px 0 0 40px;
         justify-content: space-between;
         align-items: center;
         font-size: 15px;
@@ -89,7 +90,7 @@ div.center {
         &:hover {
           color: var(--color-primary);
           border: 1px solid var(--color-primary);
-          box-shadow: 0 0 16px gray;
+          box-shadow: 0 0 16px var(--color-shandow);
         }
         > i.el-icon.prepend, > span.opts > i.el-icon.opt {
           cursor: pointer;
@@ -106,6 +107,10 @@ div.center {
     flex-grow: 1;
     border: 1px solid var(--color-border);
     border-radius: 4px;
+    transition: 0.3s;
+    &:hover {
+      box-shadow: 0 0 16px var(--color-shandow);
+    }
   }
 }
 </style>
