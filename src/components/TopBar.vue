@@ -4,7 +4,7 @@
     <el-input
       v-model="newShortln.url"
       class="new-shortln"
-      style="--el-input-focus-border: var(--el-color-primary-light-5);">
+      style="--el-input-focus-border: var(--color-border);">
       <template #prepend>
         <el-select v-model="newShortln.schema" style="width: 100px;">
           <el-option label="https://" value="https"/>
@@ -80,7 +80,7 @@ div.top-bar {
     flex-grow: 1;
     transition: 0.3s;
     &:hover {
-      box-shadow: 0 0 5px var(--el-color-primary-light-5);
+      box-shadow: 0 0 10px var(--color-border);
     }
   }
   > div.icons {
