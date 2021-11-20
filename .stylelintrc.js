@@ -21,11 +21,11 @@ module.exports = {
     ],
     'order/properties-order': [
       'z-index',
+      'position',
       'top',
       'right',
       'bottom',
       'left',
-      'position',
       'display',
       'float',
       'padding',
