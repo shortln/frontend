@@ -1,16 +1,20 @@
 <template>
   <div class="top-bar">
     <div class="favicon">Short <span class="suffix">ln</span></div>
-    <div class="new-shortln">
-      <el-input v-model="newShortln.url" size="small" style="--el-input-focus-border: gray;">
-        <template #prepend>
-          <el-select v-model="newShortln.schema" style="width: 80px;">
-            <el-option label="https://" value="https"/>
-            <el-option label="http://" value="http"/>
-          </el-select>
-        </template>
-      </el-input>
-    </div>
+    <el-input
+      v-model="newShortln.url"
+      class="new-shortln"
+      style="--el-input-focus-border: var(--el-color-primary-light-5);">
+      <template #prepend>
+        <el-select v-model="newShortln.schema" style="width: 80px;">
+          <el-option label="https://" value="https"/>
+          <el-option label="http://" value="http"/>
+        </el-select>
+      </template>
+      <template #append>
+        <el-button :icon="DocumentAdd"/>
+      </template>
+    </el-input>
     <div class="icons">
       <el-icon
         v-if="isDark"
@@ -33,7 +37,7 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
-import { MoreFilled, Moon, Sunny } from '@element-plus/icons'
+import { DocumentAdd, MoreFilled, Moon, Sunny } from '@element-plus/icons'
 
 type Schema = 'http' | 'https'
 
@@ -56,6 +60,9 @@ div.top-bar {
   height: 72px;
   background-color: var(--color-primary);
   box-shadow: 0 0 16px gray;
+  > *:not(:last-child) {
+    margin-right: 100px;
+  }
   > div.favicon {
     color: #fff;
     font-size: 30px;
@@ -66,6 +73,14 @@ div.top-bar {
       color: var(--color-primary);
       background-color: #fff;
       border-radius: 4px;
+    }
+  }
+  > div.el-input.new-shortln {
+    width: auto;
+    flex-grow: 1;
+    transition: 0.3s;
+    &:hover {
+      box-shadow: 0 0 5px var(--el-color-primary-light-5);
     }
   }
   > div.icons {
