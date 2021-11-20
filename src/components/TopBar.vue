@@ -6,7 +6,7 @@
       class="new-shortln"
       style="--el-input-focus-border: var(--el-color-primary-light-5);">
       <template #prepend>
-        <el-select v-model="newShortln.schema" style="width: 80px;">
+        <el-select v-model="newShortln.schema" style="width: 100px;">
           <el-option label="https://" value="https"/>
           <el-option label="http://" value="http"/>
         </el-select>
