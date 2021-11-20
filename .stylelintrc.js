@@ -1,7 +1,6 @@
 module.exports = {
   extends: [
     'stylelint-config-standard',
-    'stylelint-config-prettier'
   ],
   plugins: [
     'stylelint-order',
@@ -9,6 +8,9 @@ module.exports = {
   ],
   customSyntax: 'postcss-html',
   rules: {
+    'selector-list-comma-newline-after': ['always-multi-line'],
+    'rule-empty-line-before': ['never-multi-line'],
+    'custom-property-empty-line-before': ['never'],
     'order/order': [
       'custom-properties',
       'dollar-variables',
@@ -18,7 +20,6 @@ module.exports = {
       'rules',
     ],
     'order/properties-order': [
-      "dollar-variables",
       'z-index',
       'top',
       'right',
