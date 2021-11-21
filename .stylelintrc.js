@@ -8,6 +8,15 @@ module.exports = {
   ],
   customSyntax: 'postcss-html',
   rules: {
+    'at-rule-no-unknown': [undefined, {
+      ignoreAtRules: ['include']
+    }],
+    'selector-class-pattern': [undefined, {
+      resolveNestedSelectors: true
+    }],
+    'selector-pseudo-class-no-unknown': [true, {
+      ignorePseudoClasses: ['deep']
+    }],
     'selector-list-comma-newline-after': ['always-multi-line'],
     'rule-empty-line-before': ['never-multi-line'],
     'custom-property-empty-line-before': ['never'],
@@ -167,5 +176,9 @@ module.exports = {
       'unicode-bidi',
       'speak',
     ],
-  }
+  },
+  overrides: [{
+    files: ['**/*.scss', '**/*.sass'],
+    customSyntax: 'postcss-scss'
+  }]
 }
