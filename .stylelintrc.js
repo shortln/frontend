@@ -3,11 +3,13 @@ module.exports = {
     'stylelint-config-standard',
   ],
   plugins: [
+    'stylelint-scss',
     'stylelint-order',
-    'stylelint-scss'
+    './rules/stylelint-plugin.cjs'
   ],
   customSyntax: 'postcss-html',
   rules: {
+    'in/selector-combinator-space-after': ['always'],
     'at-rule-no-unknown': [undefined, {
       ignoreAtRules: ['include']
     }],
@@ -175,7 +177,7 @@ module.exports = {
       'set-link-source',
       'unicode-bidi',
       'speak',
-    ],
+    ]
   },
   overrides: [{
     files: ['**/*.scss', '**/*.sass'],
