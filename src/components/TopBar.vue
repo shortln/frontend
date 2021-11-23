@@ -1,6 +1,8 @@
 <template>
   <div class="top-bar">
-    <div class="favicon">Short <span class="suffix">ln</span></div>
+    <router-link class="favicon" to="/">
+      Short <span class="suffix">ln</span>
+    </router-link>
     <el-input
       v-model="newShortln.url"
       class="new-shortln"
@@ -21,9 +23,23 @@
         @click="isDark = !isDark">
         <component :is="isDark ? Sunny : Moon"/>
       </el-icon>
-      <el-icon class="navigation">
-        <more-filled/>
-      </el-icon>
+      <el-dropdown trigger="click"
+                   placement="bottom-end"
+                   @command="c => $router.push(`/${c}`)">
+        <el-icon class="navigation">
+          <more-filled/>
+        </el-icon>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item command="links" disabled>
+              链接管理
+            </el-dropdown-item>
+            <el-dropdown-item command="login" divided>
+              登陆注册
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
     </div>
   </div>
 </template>
@@ -35,10 +51,11 @@ import { DocumentAdd, MoreFilled, Moon, Sunny } from '@element-plus/icons'
 type Schema = 'http' | 'https'
 
 const isDark = ref(false)
-const newShortln = reactive({
-  schema: 'https' as Schema,
-  url: ''
-})
+const
+  newShortln = reactive({
+    schema: 'https' as Schema,
+    url: ''
+  })
 </script>
 
 <style scoped lang="scss">
@@ -56,10 +73,11 @@ div.top-bar {
   > *:not(:last-child) {
     margin-right: 100px;
   }
-  > div.favicon {
+  > a.favicon {
     color: #fff;
     font-size: 30px;
     font-weight: bold;
+    text-decoration: none;
     user-select: none;
     > span.suffix {
       padding: 2px 10px;
@@ -80,7 +98,7 @@ div.top-bar {
     display: flex;
     align-items: center;
     justify-content: center;
-    > i.el-icon {
+    i.el-icon {
       --font-size: 25px;
 
       padding: 5px;
