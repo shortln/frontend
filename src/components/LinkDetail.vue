@@ -4,7 +4,7 @@
       <div class="title"><el-icon class="prepend"><ln/></el-icon>{{ lnDetail?.title ?? '未设置标题' }}</div>
       <div class="opts">
         <el-button class="opt" :icon="Setting"/>
-        <el-button class="opt" :icon="PieChart"/>
+        <el-button class="opt" :icon="DataAnalysis"/>
       </div>
     </div>
     <div class="content">
@@ -39,7 +39,7 @@
 
 <script lang="ts" setup>
 import { onMounted, ref, watch } from 'vue'
-import { Link as Ln, Setting, PieChart } from '@element-plus/icons'
+import { Link as Ln, Setting, DataAnalysis } from '@element-plus/icons'
 
 interface ExpireTypes {
   forever: {}
