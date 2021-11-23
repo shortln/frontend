@@ -17,9 +17,9 @@
     </el-input>
     <div class="icons">
       <el-icon
-        :class="isDark ? 'moon' : 'sunny'"
+        :class="isDark ? 'sunny' : 'moon'"
         @click="isDark = !isDark">
-        <component :is="isDark ? Moon : Sunny"/>
+        <component :is="isDark ? Sunny : Moon"/>
       </el-icon>
       <el-icon class="navigation">
         <more-filled/>
