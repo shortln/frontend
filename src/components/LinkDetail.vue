@@ -58,7 +58,7 @@ interface Ln<T extends string = any> {
   jumpUrl: string
 }
 
-const props = withDefaults(defineProps<{
+withDefaults(defineProps<{
   modelValue: string
 }>(), {
 })
