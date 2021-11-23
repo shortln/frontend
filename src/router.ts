@@ -9,6 +9,13 @@ export default createRouter({
     component: () => import('./views/Home.vue')
   }, {
     path: '/links',
-    component: () => import('./views/Links.vue')
+    name: 'links',
+    component: () => import('./views/Links.vue'),
+    children: [{
+      path: ':modelValue/detail',
+      name: 'link-detail',
+      props: true,
+      component: () => import('./components/LinkDetail.vue')
+    }]
   }]
 })

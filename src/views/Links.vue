@@ -26,7 +26,10 @@
       </div>
     </div>
     <div class="container">
-      <el-empty description="目前还没有选择短链"/>
+      <el-empty
+        v-if="$route.name === 'links'" description="目前还没有选择短链"/>
+      <router-view
+        v-else/>
     </div>
   </div>
 </template>
