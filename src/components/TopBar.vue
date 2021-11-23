@@ -17,16 +17,9 @@
     </el-input>
     <div class="icons">
       <el-icon
-        v-if="isDark"
-        class="sunny"
-        @click="isDark = false">
-        <sunny/>
-      </el-icon>
-      <el-icon
-        v-else
-        class="moon"
-        @click="isDark = true">
-        <moon/>
+        :class="isDark ? 'moon' : 'sunny'"
+        @click="isDark = !isDark">
+        <component :is="isDark ? Moon : Sunny"/>
       </el-icon>
       <el-icon class="navigation">
         <more-filled/>
