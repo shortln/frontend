@@ -27,6 +27,9 @@ module.exports = {
     'keyword-spacing': ['error', { before: true, after: true }],
     'comma-dangle': ['error', 'never'],
     'function-paren-newline': 'off',
+    'vue/first-attribute-linebreak': ['warn', {
+      multiline: 'ignore'
+    }],
     'vue/custom-event-name-casing': 'off',
     'vue/html-closing-bracket-newline': 'off',
     'vue/html-closing-bracket-spacing': 'off',
