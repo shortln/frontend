@@ -59,9 +59,7 @@ div.welcome {
     width: $size;
     height: $size;
     cursor: pointer;
-    &:hover {
-      animation: up-and-down 1s ease infinite;
-    }
+    animation: up-and-down 1s ease infinite;
     > div.l, > div.r {
       position: absolute;
       bottom: calc(#{$size} / 2 - 15px);
