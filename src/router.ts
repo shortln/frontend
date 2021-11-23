@@ -16,6 +16,10 @@ export default createRouter({
       name: 'link-detail',
       props: true,
       component: () => import('./components/LinkDetail.vue')
+    }, {
+      path: ':pathMatch(.*)*',
+      component: () => import('element-plus').then(({ ElEmpty }) => ElEmpty),
+      props: { description: '目前还没有选择短链' }
     }]
   }]
 })

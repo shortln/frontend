@@ -1,41 +1,42 @@
 <template>
   <div class="center">
     <div class="left-panel">
-      <div class="title">
-        <el-icon class="prepend"><arrow-right/></el-icon>
-        <span class="name">默认分组</span>
-        <span class="opts">
-          <el-icon class="opt"><plus/></el-icon>
-        </span>
-      </div>
-      <div class="title active">
-        <el-icon class="prepend"><arrow-right/></el-icon>
-        <span class="name">频道短链</span>
-        <span class="opts">
-          <el-icon class="opt"><plus/></el-icon>
-        </span>
-      </div>
-      <div class="children">
-        <div class="child">
-          <el-icon class="prepend"><ln/></el-icon>
-          <span class="name">QQ 频道</span>
+      <template v-for="linksGroup in linksGroups" :key="linksGroup.name">
+        <div class="title active">
+          <el-icon class="prepend"><arrow-right/></el-icon>
+          <span class="name">{{ linksGroup.name }}</span>
           <span class="opts">
-            <el-icon class="opt"><setting/></el-icon>
+            <el-icon class="opt"><plus/></el-icon>
           </span>
         </div>
-      </div>
+        <div class="children">
+          <div v-for="link in linksGroup.links" :key="link.id" class="child">
+            <span class="name" @click="$router.push(`/links/${link.id}/detail`)">
+              <el-icon class="prepend"><ln/></el-icon>{{ link.title }}
+            </span>
+            <span class="opts">
+              <el-icon class="opt"><setting/></el-icon>
+            </span>
+          </div>
+        </div>
+      </template>
     </div>
     <div class="container">
-      <el-empty
-        v-if="$route.name === 'links'" description="目前还没有选择短链"/>
-      <router-view
-        v-else/>
+      <router-view/>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ArrowRight, Link as Ln, Plus, Setting } from '@element-plus/icons'
+
+const linksGroups = [{
+  name: '默认分组',
+  links: [{
+    id: 1,
+    title: 'QQ 频道'
+  }]
+}]
 </script>
 
 <style lang="scss" scoped>
@@ -95,8 +96,12 @@ div.center {
           border: 1px solid var(--color-primary);
           box-shadow: 0 0 16px var(--color-shandow);
         }
-        > i.el-icon.prepend, > span.opts > i.el-icon.opt {
-          cursor: pointer;
+        > span.name {
+          display: flex;
+          align-items: center;
+          &, > span.opts > i.el-icon.opt {
+            cursor: pointer;
+          }
         }
         > span.opts {
           display: flex;
