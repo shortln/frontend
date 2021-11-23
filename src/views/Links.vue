@@ -1,15 +1,28 @@
 <template>
   <div class="center">
     <div class="left-panel">
-      <template v-for="linksGroup in linksGroups" :key="linksGroup.name">
-        <div class="title active">
-          <el-icon class="prepend"><arrow-right/></el-icon>
+      <template v-for="(linksGroup, index) in linksGroups" :key="linksGroup.name">
+        <div
+          class="title"
+          :class="{
+            active: activeIndex !== -1 && activeIndex === index
+          }">
+          <el-icon
+            class="prepend"
+            @click="activeIndex = index">
+            <arrow-right/>
+          </el-icon>
           <span class="name">{{ linksGroup.name }}</span>
           <span class="opts">
             <el-icon class="opt"><plus/></el-icon>
           </span>
         </div>
-        <div class="children">
+        <el-scrollbar
+          class="children"
+          :class="{
+            active: activeIndex !== -1 && activeIndex === index
+          }"
+          height="210px">
           <div v-for="link in linksGroup.links" :key="link.id" class="child">
             <span class="name" @click="$router.push(`/links/${link.id}/detail`)">
               <el-icon class="prepend"><ln/></el-icon>{{ link.title }}
@@ -18,7 +31,7 @@
               <el-icon class="opt"><setting/></el-icon>
             </span>
           </div>
-        </div>
+        </el-scrollbar>
       </template>
     </div>
     <div class="container">
@@ -29,14 +42,44 @@
 
 <script lang="ts" setup>
 import { ArrowRight, Link as Ln, Plus, Setting } from '@element-plus/icons'
+import { ref } from 'vue'
 
-const linksGroups = [{
-  name: '默认分组',
-  links: [{
-    id: 1,
-    title: 'QQ 频道'
-  }]
-}]
+const
+  linksGroups = [{
+    name: '默认分组',
+    links: [{
+      id: 1,
+      title: 'QQ 频道'
+    }, {
+      id: 2,
+      title: 'QQ 频道'
+    }, {
+      id: 3,
+      title: 'QQ 频道'
+    }, {
+      id: 4,
+      title: 'QQ 频道'
+    }, {
+      id: 5,
+      title: 'QQ 频道'
+    }, {
+      id: 6,
+      title: 'QQ 频道'
+    }]
+  }, {
+    name: '频道',
+    links: [{
+      id: 1,
+      title: 'QQ 频道'
+    }, {
+      id: 2,
+      title: 'QQ 频道'
+    }, {
+      id: 3,
+      title: 'QQ 频道'
+    }]
+  }],
+  activeIndex = ref(-1)
 </script>
 
 <style lang="scss" scoped>
@@ -55,7 +98,6 @@ div.center {
       justify-content: space-between;
       align-items: center;
       font-size: 18px;
-      cursor: pointer;
       border: 1px solid #0000;
       border-radius: 4px;
       box-sizing: border-box;
@@ -74,17 +116,25 @@ div.center {
           transform: rotate(90deg);
         }
       }
-      > i.el-icon { transition: 0.3s; }
+      > i.el-icon.prepend { transition: 0.3s; }
       > span.opts {
         display: flex;
         align-items: center;
       }
+      > i.el-icon.prepend, > span.opts > i.el-icon.opt {
+        cursor: pointer;
+      }
     }
     > div.children {
-      > div.child {
+      max-height: 0;
+      transition: 0.3s;
+      &.active {
+        max-height: 210px;
+      }
+      div.child {
         display: flex;
         padding: 5px;
-        margin: 10px 0 0 40px;
+        margin: 10px 10px 0 40px;
         justify-content: space-between;
         align-items: center;
         font-size: 15px;
@@ -99,9 +149,10 @@ div.center {
         > span.name {
           display: flex;
           align-items: center;
-          &, > span.opts > i.el-icon.opt {
-            cursor: pointer;
-          }
+          > i.el-icon.prepend { margin-right: 5px; }
+        }
+        > span.name, > span.opts > i.el-icon.opt {
+          cursor: pointer;
         }
         > span.opts {
           display: flex;
