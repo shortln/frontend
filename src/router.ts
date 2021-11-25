@@ -9,6 +9,9 @@ export default createRouter({
     name: 'home',
     component: () => import('./views/Home.vue')
   }, {
+    path: '/login',
+    component: () => import('./views/Login.vue')
+  }, {
     path: '/links',
     name: 'links',
     component: () => import('./views/Links.vue'),
