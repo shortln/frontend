@@ -1,5 +1,5 @@
 <template>
-  <top-bar :style="{ position }"/>
+  <top-bar :class="{ fixed }"/>
   <router-view v-slot="{ Component }">
     <transition name="el-fade-in-linear">
       <component :is="Component"/>
@@ -13,14 +13,11 @@ import TopBar from './components/TopBar.vue'
 import { useRoute } from 'vue-router'
 
 const
-  position = ref<'fixed' | 'relative'>('relative'),
+  fixed = ref(false),
   route = useRoute()
 
 watch(() => route.name, v => {
-  if (v === 'home')
-    position.value = 'fixed'
-  else
-    position.value = 'relative'
+  fixed.value = v === 'home'
 })
 </script>
 
@@ -35,6 +32,10 @@ html, body { margin: 0; }
 
 <style lang="scss" scoped>
 div.top-bar {
-  z-index: 1000;
+  z-index: 10;
+  &.fixed {
+    position: fixed;
+    top: 0;
+  }
 }
 </style>
