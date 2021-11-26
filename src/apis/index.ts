@@ -4,6 +4,17 @@ interface ErrorResponseData {
   message: string
 }
 
+export type Query = {
+  str: string
+  page?: number
+  size?: number
+}
+
+export interface Pagination<T> {
+  count: number
+  items: T[]
+}
+
 export interface Api {
   moduleName: string
 }
