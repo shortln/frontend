@@ -23,10 +23,10 @@ module.exports = {
     'rule-empty-line-before': ['never-multi-line'],
     'custom-property-empty-line-before': ['never'],
     'order/order': [
-      'at-rules',
-      'at-variables',
       'custom-properties',
       'dollar-variables',
+      'at-rules',
+      'at-variables',
       'declarations',
       'rules',
     ],
