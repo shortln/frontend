@@ -87,6 +87,9 @@ $top-bar-h: 72px;
   }
 }
 div.carousel-wrap {
+  position: fixed;
+  top: 0;
+  width: 100vw;
   height: 100vh;
   overflow-y: auto;
   scrollbar-width: none;
