@@ -3,7 +3,7 @@
     <div class="left-panel">
       <div class="opts">
         <el-tooltip content="添加新分组">
-          <el-icon class="opt"><plus/></el-icon>
+          <el-button :icon="Plus"/>
         </el-tooltip>
       </div>
       <template v-for="(linksGroup, index) in linksGroups" :key="linksGroup.name">
@@ -74,6 +74,11 @@ div.center {
   > div.left-panel {
     padding: 0 20px;
     width: 300px;
+    > div.opts {
+      display: flex;
+      align-items: center;
+      padding: 5px;
+    }
     > div.title {
       display: flex;
       padding: 5px;
