@@ -56,6 +56,8 @@
 import { reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import accountApis from '../apis/accountApis'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 
 type Status = 'LOGIN' | 'REGISTER'
 
@@ -66,6 +68,8 @@ interface Account {
 }
 
 const
+  store = useStore(),
+  router = useRouter(),
   account = reactive<Account>({
     username: '',
     password: ''
@@ -92,9 +96,9 @@ const
       if (account.password.length <= 3) {
         throw new Error('密码错误')
       }
-      console.log(
-        await accountApis.login(account.username, account.password)
-      )
+      store.commit('setCurU', await accountApis.login(account.username, account.password))
+      await router.push('/links')
+      ElMessage.success('登陆成功')
     } catch (e) {
       if (e instanceof Error)
         ElMessage.warning(e.message)
