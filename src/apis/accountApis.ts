@@ -9,6 +9,10 @@ export interface AccountOut {
 export default new class AccountApis extends AbsApis implements Api {
   moduleName = 'accounts'
 
-  login = (username: string, password: string) => this.$h.post<any, AccountOut>(
-    `/${username}/login`, { password })
+  login = (username: string, password: string) =>
+    this.$h.post<any, AccountOut>(
+      `/${username}/login`, { password })
+
+  logout = (username: string) =>
+    this.$h.get<any, null>(`/${username}/logout`)
 }
