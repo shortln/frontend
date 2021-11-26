@@ -15,7 +15,12 @@ export interface LinksGroupOut {
 export default new class LinkApis extends AbsApis implements Api {
   moduleName = 'links'
 
-  createLinksGroup = (name: string) => this.$h.post<any, LinksGroupOut>('/groups', { name })
+  createLinksGroup = (name: string) => this.$h
+    .post<any, LinksGroupOut>('/groups', { name })
+    .then(lg => {
+      if (!lg.links) lg.links = []
+      return lg
+    })
 
   getLinksGroups = (q: Query) => this.$h.get<any, Pagination<LinksGroupOut>>(`/groups?${queryString.stringify(q)}`)
 }
