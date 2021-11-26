@@ -31,7 +31,7 @@
         </el-icon>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item command="links" disabled>
+            <el-dropdown-item command="links" :disabled="!isLogin">
               链接管理
             </el-dropdown-item>
             <el-dropdown-item v-if="isLogin" command="logout" divided>
