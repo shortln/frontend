@@ -25,7 +25,7 @@
       </el-icon>
       <el-dropdown trigger="click"
                    placement="bottom-end"
-                   @command="c => $router.push(`/${c}`)">
+                   @command="handleCmd">
         <el-icon class="navigation">
           <more-filled/>
         </el-icon>
@@ -34,7 +34,10 @@
             <el-dropdown-item command="links" disabled>
               链接管理
             </el-dropdown-item>
-            <el-dropdown-item command="login" divided>
+            <el-dropdown-item v-if="isLogin" command="logout" divided>
+              退出登陆
+            </el-dropdown-item>
+            <el-dropdown-item v-else command="login" divided>
               登陆注册
             </el-dropdown-item>
           </el-dropdown-menu>
@@ -45,17 +48,42 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { DocumentAdd, MoreFilled, Moon, Sunny } from '@element-plus/icons'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
+import { ElMessage } from 'element-plus'
 
 type Schema = 'http' | 'https'
 
-const isDark = ref(false)
 const
+  store = useStore(),
+  router = useRouter(),
+  isDark = ref(false),
   newShortln = reactive({
     schema: 'https' as Schema,
     url: ''
-  })
+  }),
+  isLogin = computed(() => store.getters.isLogin),
+  handleCmd = async (c: 'links' | 'login' | 'logout') => {
+    try {
+      switch (c) {
+        case 'logout':
+          await store.dispatch('logout')
+          await router.push('home')
+          ElMessage.success('退出登陆成功。')
+          break
+        default:
+          await router.push(`/${c}`)
+      }
+    } catch (e) {
+      if (e instanceof Error) {
+        ElMessage.warning(e.message)
+      } else {
+        throw e
+      }
+    }
+  }
 </script>
 
 <style scoped lang="scss">
