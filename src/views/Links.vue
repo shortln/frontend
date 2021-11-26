@@ -3,7 +3,7 @@
     <div v-loading="isLoading" class="left-panel">
       <div class="opts">
         <el-tooltip content="添加新分组">
-          <el-button :icon="Plus"/>
+          <el-button :icon="Plus" @click="createLinksGroup"/>
         </el-tooltip>
         <el-tooltip content="刷新">
           <el-button :icon="Refresh" @click="refresh"/>
@@ -65,7 +65,7 @@
 import { ArrowRight, Link as Ln, Plus, Refresh, Setting } from '@element-plus/icons'
 import { getCurrentInstance, nextTick, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { ElScrollbar } from 'element-plus'
+import { ElMessage, ElMessageBox, ElScrollbar } from 'element-plus'
 import linkApis, { LinksGroupOut } from '../apis/linkApis'
 import useLoading from '../hooks/useLoading'
 
@@ -79,10 +79,19 @@ const
   activeGid = ref(-1),
   isActive = (lg: LinksGroup) => activeGid.value !== -1 && activeGid.value === lg.id,
   { isLoading, nAsyncFun: refresh } = useLoading(async () => {
-    linksGroups.value = []
     linksGroups.value = await linkApis.getLinksGroups({ str: '' })
       .then(p => p.items)
-  })
+  }),
+  createLinksGroup = () => ElMessageBox.prompt('请输入新短链接分组名称', '创建新短链接分组', {
+    confirmButtonText: '确认',
+    cancelButtonText: '取消'
+  }).then(
+    mbData => linkApis.createLinksGroup(mbData.value)
+  ).then(
+    lg => linksGroups.value.push(lg)
+  ).then(
+    () => ElMessage.success('添加短链接分组成功。')
+  )
 
 watch(linksGroups, lgs => {
   if (route.name === 'link-detail') {
