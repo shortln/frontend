@@ -56,8 +56,9 @@
 
 <script lang="ts" setup>
 import { ArrowRight, Link as Ln, Plus, Setting } from '@element-plus/icons'
-import { DefineComponent, getCurrentInstance, nextTick, onMounted, ref, watch } from 'vue'
+import { getCurrentInstance, nextTick, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import { ElScrollbar } from 'element-plus'
 
 interface Link {
   id: number
@@ -87,7 +88,7 @@ watch(linksGroups, lgs => {
         activeGid.value = lg.id
         // wait ref render
         nextTick(() => {
-          const scrollbarRef = ctx?.refs[`scrollbar${lg.id}`] as DefineComponent<{}, {}, any>
+          const scrollbarRef = ctx?.refs[`scrollbar${lg.id}`] as InstanceType<typeof ElScrollbar>
           scrollbarRef.setScrollTop(42 * index)
         })
       }
