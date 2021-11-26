@@ -1,6 +1,11 @@
 <template>
   <div class="center">
     <div class="left-panel">
+      <div class="opts">
+        <el-tooltip content="添加新分组">
+          <el-icon class="opt"><plus/></el-icon>
+        </el-tooltip>
+      </div>
       <template v-for="(linksGroup, index) in linksGroups" :key="linksGroup.name">
         <div
           class="title"
@@ -47,37 +52,14 @@ import { ref } from 'vue'
 const
   linksGroups = [{
     name: '默认分组',
-    links: [{
-      id: 1,
-      title: 'QQ 频道'
-    }, {
-      id: 2,
-      title: 'QQ 频道'
-    }, {
-      id: 3,
-      title: 'QQ 频道'
-    }, {
-      id: 4,
-      title: 'QQ 频道'
-    }, {
-      id: 5,
-      title: 'QQ 频道'
-    }, {
-      id: 6,
-      title: 'QQ 频道'
-    }]
+    links: [...new Array(10).keys()].map(id => ({
+      id, title: `随便的第 ${id} 个短链接`
+    }))
   }, {
     name: '频道',
-    links: [{
-      id: 1,
-      title: 'QQ 频道'
-    }, {
-      id: 2,
-      title: 'QQ 频道'
-    }, {
-      id: 3,
-      title: 'QQ 频道'
-    }]
+    links: [...new Array(4).keys()].map(id => ({
+      id, title: `QQ 频道 ${id} `
+    }))
   }],
   activeIndex = ref(-1)
 </script>
