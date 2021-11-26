@@ -6,15 +6,15 @@
           <el-button :icon="Plus"/>
         </el-tooltip>
       </div>
-      <template v-for="(linksGroup, index) in linksGroups" :key="linksGroup.name">
+      <template v-for="linksGroup in linksGroups" :key="linksGroup.id">
         <div
           class="title"
           :class="{
-            active: activeIndex !== -1 && activeIndex === index
+            active: activeGid !== -1 && activeGid === linksGroup.id
           }">
           <el-icon
             class="prepend"
-            @click="activeIndex = index">
+            @click="activeGid = linksGroup.id">
             <arrow-right/>
           </el-icon>
           <span class="name">{{ linksGroup.name }}</span>
@@ -23,13 +23,22 @@
           </span>
         </div>
         <el-scrollbar
+          :ref="`scrollbar${linksGroup.id}`"
           class="children"
           :class="{
-            active: activeIndex !== -1 && activeIndex === index
+            active: activeGid !== -1 && activeGid === linksGroup.id
           }"
           height="210px">
-          <div v-for="link in linksGroup.links" :key="link.id" class="child">
-            <span class="name" @click="$router.push(`/links/${link.id}/detail`)">
+          <div
+            v-for="link in linksGroup.links" :key="link.id"
+            class="child"
+            :class="{
+              active: activeId === link.id
+            }">
+            <span class="name" @click="
+              activeId = link.id;
+              $router.push(`/links/${link.id}/detail`)
+            ">
               <el-icon class="prepend"><ln/></el-icon>{{ link.title }}
             </span>
             <span class="opts">
@@ -47,24 +56,67 @@
 
 <script lang="ts" setup>
 import { ArrowRight, Link as Ln, Plus, Setting } from '@element-plus/icons'
-import { ref } from 'vue'
+import { DefineComponent, getCurrentInstance, nextTick, onMounted, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
+
+interface Link {
+  id: number
+  title: string
+}
+
+interface LinksGroup {
+  id: number
+  name: string
+  links: Link[]
+}
 
 const
-  linksGroups = [{
+  ctx = getCurrentInstance(),
+  route = useRoute(),
+  linksGroups = ref<LinksGroup[]>([]),
+  activeId = ref(-1),
+  activeGid = ref(-1)
+
+watch(linksGroups, lgs => {
+  if (route.name === 'link-detail') {
+    const { modelValue } = route.params
+    const id = +modelValue
+    lgs.forEach(lg => lg.links.forEach((ln, index) => {
+      if (id === ln.id) {
+        activeId.value = ln.id
+        activeGid.value = lg.id
+        // wait ref render
+        nextTick(() => {
+          const scrollbarRef = ctx?.refs[`scrollbar${lg.id}`] as DefineComponent<{}, {}, any>
+          scrollbarRef.setScrollTop(42 * index)
+        })
+      }
+    }))
+  }
+})
+
+onMounted(() => {
+  linksGroups.value = [{
+    id: 1,
     name: '默认分组',
     links: [...new Array(10).keys()].map(id => ({
       id, title: `随便的第 ${id} 个短链接`
     }))
   }, {
+    id: 2,
     name: '频道',
-    links: [...new Array(4).keys()].map(id => ({
-      id, title: `QQ 频道 ${id} `
+    links: [...new Array(4).keys()].map(id => id + 10).map(id => ({
+      id, title: `QQ 频道 ${id}`
     }))
-  }],
-  activeIndex = ref(-1)
+  }]
+})
 </script>
 
 <style lang="scss" scoped>
+@mixin __ {
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+}
 div.center {
   $mar-between: 100px;
 
@@ -129,9 +181,12 @@ div.center {
         border-radius: 4px;
         transition: 0.3s;
         &:hover {
-          color: var(--color-primary);
-          border: 1px solid var(--color-primary);
+          @include __;
+
           box-shadow: 0 0 16px var(--color-shandow);
+        }
+        &.active {
+          @include __;
         }
         > span.name {
           display: flex;
