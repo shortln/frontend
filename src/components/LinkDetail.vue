@@ -1,5 +1,5 @@
 <template>
-  <div class="link-detail">
+  <div v-loading="isLoading" class="link-detail">
     <div class="head">
       <div class="title"><el-icon class="prepend"><ln/></el-icon>{{ lnDetail?.title ?? '未设置标题' }}</div>
       <div class="opts">
@@ -38,32 +38,22 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 import { Link as Ln, Setting, DataAnalysis } from '@element-plus/icons'
+import linkApis, { Expire, LinkOut } from '../apis/linkApis'
+import useLoading from '../hooks/useLoading'
 
-interface ExpireTypes {
-  forever: {}
-  limited: {
-    datetime: Date
-  }
-}
+type Link = LinkOut
 
-type Expire<T extends string> = { type: T } & (T extends keyof ExpireTypes ? ExpireTypes[T] : {})
-
-interface Ln<T extends string = any> {
-  title: string
-  expire: T extends any
-    ? Expire<'forever'> | Expire<'limited'>
-    : Expire<T>
-  jumpUrl: string
-}
-
-withDefaults(defineProps<{
+const props = withDefaults(defineProps<{
   modelValue: string
 }>(), {
 })
 const
-  lnDetail = ref<Ln | undefined>(undefined)
+  lnDetail = ref<Link | undefined>(undefined),
+  { isLoading, nAsyncFun: refresh } = useLoading(async () => {
+    lnDetail.value = await linkApis.getLink(+props.modelValue)
+  })
 
 watch(() => lnDetail?.value?.expire.type, nv => {
   if (!lnDetail.value) return
@@ -74,15 +64,7 @@ watch(() => lnDetail?.value?.expire.type, nv => {
   }
 })
 
-onMounted(() => {
-  lnDetail.value = {
-    title: '测试',
-    expire: {
-      type: 'forever'
-    },
-    jumpUrl: 'https://some.com/path?query=val#hash'
-  }
-})
+watch(() => props.modelValue, refresh)
 </script>
 
 <style lang="scss" scoped>
