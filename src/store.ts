@@ -1,9 +1,12 @@
 import { createStore } from 'vuex'
+import createPersistedState from 'vuex-persistedstate'
+
 import accountApis, { AccountOut } from './apis/accountApis'
 
 export type Account = AccountOut
 
 export default createStore({
+  plugins: [createPersistedState()],
   state: {
     account: {
       id: -1
@@ -18,12 +21,12 @@ export default createStore({
     }
   },
   actions: {
-    logout: async ({ getters, state }) => {
+    logout: async ({ getters, commit, state }) => {
       if (!getters.isLogin || !state.account.username) {
         throw new Error('用户未登陆。')
       }
       await accountApis.logout(state.account.username)
-      state.account = { id: -1 }
+      commit('setCurU', { id: -1 })
     }
   }
 })
