@@ -38,12 +38,23 @@ router.beforeEach((to, from, next) => {
       to.matched.some(record => record.meta.requiresAuth)
       && (account?.id ?? -1) === -1
     ) {
-      next({
-        path: '/login',
-        query: { redirect: to.fullPath }
-      })
+      next('/login')
     }
     next()
+  } catch (e) {
+    localStorage.setItem('vuex', JSON.stringify({ account: { id: -1 } }))
+    location.reload()
+  }
+})
+
+router.afterEach(() => {
+  try {
+    const { account } = JSON.parse(localStorage.getItem('vuex') ?? '')
+    if (account?.id !== -1) {
+      document.title = `${account.nickname} - 短链管理`
+    } else {
+      document.title = '短链管理'
+    }
   } catch (e) {
     localStorage.setItem('vuex', JSON.stringify({ account: { id: -1 } }))
     location.reload()
