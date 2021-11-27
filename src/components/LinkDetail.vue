@@ -64,7 +64,7 @@ watch(() => lnDetail?.value?.expire.type, nv => {
   }
 })
 
-watch(() => props.modelValue, refresh)
+watch(() => props.modelValue, refresh, { immediate: true })
 </script>
 
 <style lang="scss" scoped>
@@ -76,6 +76,8 @@ div.link-detail {
     > div.title {
       display: flex;
       align-items: center;
+      height: 40px;
+      line-height: 40px;
       &, & > i.el-icon.prepend {
         font-size: 24px;
         font-weight: bold;
