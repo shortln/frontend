@@ -1,5 +1,15 @@
 <template>
   <div class="center">
+    <el-dialog
+      ref="linksGroupsDetail"
+      v-model="show.linksGroupsDetail"
+      :title="`${ curLinkGroup?.name } 分组设置`">
+      <links-group-detail v-model="curLinkGroup" @delete="id => {
+        show.linksGroupsDetail = false
+        curLinkGroup = { id: -1, name: '未选择' }
+        refresh()
+      }"/>
+    </el-dialog>
     <div v-loading="isLoading" class="left-panel">
       <div class="opts">
         <el-tooltip content="添加新分组">
@@ -28,7 +38,10 @@
             <span class="name">{{ lg.name }}</span>
             <span class="opts">
               <el-icon class="opt"><document-add/></el-icon>
-              <el-icon class="opt"><setting/></el-icon>
+              <el-icon class="opt" @click="() => {
+                curLinkGroup = lg
+                show.linksGroupsDetail = true
+              }"><setting/></el-icon>
             </span>
           </div>
           <el-scrollbar
@@ -66,17 +79,22 @@
 
 <script lang="ts" setup>
 import { ArrowRight, Link as Ln, FolderAdd, DocumentAdd, Refresh, Setting } from '@element-plus/icons'
-import { getCurrentInstance, nextTick, onMounted, ref, watch } from 'vue'
+import { getCurrentInstance, nextTick, onMounted, reactive, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { ElMessage, ElMessageBox, ElScrollbar } from 'element-plus'
 import linkApis, { LinksGroupOut } from '../apis/linkApis'
 import useLoading from '../hooks/useLoading'
+import LinksGroupDetail from '../components/LinksGroupDetail.vue'
 
 type LinksGroup = LinksGroupOut
 
 const
   ctx = getCurrentInstance(),
   route = useRoute(),
+  show = reactive({
+    linksGroupsDetail: false
+  }),
+  curLinkGroup = ref<LinksGroup | undefined>(undefined),
   linksGroups = ref<LinksGroup[]>([]),
   activeId = ref(-1),
   activeGid = ref(-1),
