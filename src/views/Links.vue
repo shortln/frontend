@@ -6,7 +6,7 @@
       :title="`${ curLinkGroup?.name } 分组设置`">
       <links-group-detail v-model="curLinkGroup" @delete="id => {
         show.linksGroupsDetail = false
-        curLinkGroup = { id: -1, name: '未选择' }
+        curLinkGroupIndex = -1
         refresh()
       }"/>
     </el-dialog>
@@ -26,7 +26,7 @@
           class="empty-to-full-item"
           description="还没有短链接分组哦~创建一个吧"/>
         <div
-          v-for="lg in linksGroups" :key="lg.id"
+          v-for="(lg, index) in linksGroups" :key="lg.id"
           class="links-group empty-to-full-item"
           :class="{ active: isActive(lg) }">
           <div class="title">
@@ -39,7 +39,7 @@
             <span class="opts">
               <el-icon class="opt"><document-add/></el-icon>
               <el-icon class="opt" @click="() => {
-                curLinkGroup = lg
+                curLinkGroupIndex = index
                 show.linksGroupsDetail = true
               }"><setting/></el-icon>
             </span>
@@ -79,7 +79,7 @@
 
 <script lang="ts" setup>
 import { ArrowRight, Link as Ln, FolderAdd, DocumentAdd, Refresh, Setting } from '@element-plus/icons'
-import { getCurrentInstance, nextTick, onMounted, reactive, ref, watch } from 'vue'
+import { computed, getCurrentInstance, nextTick, onMounted, reactive, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { ElMessage, ElMessageBox, ElScrollbar } from 'element-plus'
 import linkApis, { LinksGroupOut } from '../apis/linkApis'
@@ -94,10 +94,20 @@ const
   show = reactive({
     linksGroupsDetail: false
   }),
-  curLinkGroup = ref<LinksGroup | undefined>(undefined),
   linksGroups = ref<LinksGroup[]>([]),
   activeId = ref(-1),
   activeGid = ref(-1),
+  curLinkGroupIndex = ref(-1),
+  curLinkGroup = computed({
+    get() {
+      return linksGroups.value[curLinkGroupIndex.value] ?? {
+        id: -1, name: '未选择'
+      }
+    },
+    set(v: LinksGroup) {
+      linksGroups.value[curLinkGroupIndex.value] = v
+    }
+  }),
   isActive = (lg: LinksGroup) => activeGid.value !== -1 && activeGid.value === lg.id,
   { isLoading, nAsyncFun: refresh } = useLoading(async () => {
     linksGroups.value = await linkApis.getLinksGroups({ str: '' })
