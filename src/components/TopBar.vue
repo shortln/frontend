@@ -70,11 +70,11 @@ const
       switch (c) {
         case 'logout':
           await store.dispatch('logout')
-          await router.push('home')
+          await router.replace('home')
           ElMessage.success('退出登陆成功。')
           break
         default:
-          await router.push(`/${c}`)
+          await router.replace(`/${c}`)
       }
     } catch (e) {
       if (e instanceof Error) {
