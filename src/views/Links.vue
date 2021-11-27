@@ -269,6 +269,9 @@ div.center {
     &:hover {
       box-shadow: 0 0 16px var(--color-shandow);
     }
+    > div.el-empty {
+      height: 100%;
+    }
   }
 }
 </style>
