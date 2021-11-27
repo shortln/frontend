@@ -1,6 +1,7 @@
 import axios, { AxiosInstance, AxiosResponse, AxiosError, AxiosRequestConfig } from 'axios'
-import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
+
+import router from '../router'
 
 interface ErrorResponseData {
   message: string
@@ -40,7 +41,6 @@ export default class AbsApis {
         }
         return response.data
       }, async (error: AxiosError<ErrorResponseData>) => {
-        const router = useRouter()
         const response = error?.response
         const message = response?.data?.message
 
@@ -52,13 +52,7 @@ export default class AbsApis {
               403: '权限不足'
             }
             ElMessage.error(message ?? msgs[response?.status])
-            await router.push({
-              path: '/box',
-              query: {
-                redirect: location.href
-                  .replace(`${location.protocol}//${location.host}`, '')
-              }
-            })
+            await router.push('/login')
             break
         }
         throw error
