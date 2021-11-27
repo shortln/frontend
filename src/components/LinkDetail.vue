@@ -5,6 +5,9 @@
       <div class="opts">
         <el-button class="opt" :icon="Setting"/>
         <el-button class="opt" :icon="DataAnalysis"/>
+        <el-tooltip content="保存修改">
+          <el-button class="opt" :icon="DocumentChecked" type="success" plain/>
+        </el-tooltip>
       </div>
     </div>
     <div class="content">
@@ -39,7 +42,7 @@
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue'
-import { Link as Ln, Setting, DataAnalysis } from '@element-plus/icons'
+import { Link as Ln, DocumentChecked, Setting, DataAnalysis } from '@element-plus/icons'
 import linkApis, { Expire, LinkOut } from '../apis/linkApis'
 import useLoading from '../hooks/useLoading'
 
@@ -76,6 +79,7 @@ div.link-detail {
     > div.title {
       display: flex;
       align-items: center;
+      column-gap: 5px;
       height: 40px;
       line-height: 40px;
       &, & > i.el-icon.prepend {

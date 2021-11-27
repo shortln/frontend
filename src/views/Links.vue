@@ -3,7 +3,7 @@
     <div v-loading="isLoading" class="left-panel">
       <div class="opts">
         <el-tooltip content="添加新分组">
-          <el-button :icon="Plus" @click="createLinksGroup"/>
+          <el-button :icon="FolderAdd" @click="createLinksGroup"/>
         </el-tooltip>
         <el-tooltip content="刷新">
           <el-button :icon="Refresh" @click="refresh"/>
@@ -26,7 +26,10 @@
               <arrow-right/>
             </el-icon>
             <span class="name">{{ lg.name }}</span>
-            <span class="opts"><el-icon class="opt"><plus/></el-icon></span>
+            <span class="opts">
+              <el-icon class="opt"><document-add/></el-icon>
+              <el-icon class="opt"><setting/></el-icon>
+            </span>
           </div>
           <el-scrollbar
             :ref="`scrollbar${lg.id}`"
@@ -62,7 +65,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ArrowRight, Link as Ln, Plus, Refresh, Setting } from '@element-plus/icons'
+import { ArrowRight, Link as Ln, FolderAdd, DocumentAdd, Refresh, Setting } from '@element-plus/icons'
 import { getCurrentInstance, nextTick, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { ElMessage, ElMessageBox, ElScrollbar } from 'element-plus'
@@ -201,6 +204,7 @@ div.center {
         > span.opts {
           display: flex;
           align-items: center;
+          column-gap: 5px;
         }
         > i.el-icon.prepend, > span.opts > i.el-icon.opt {
           cursor: pointer;
