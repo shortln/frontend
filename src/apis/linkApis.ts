@@ -11,6 +11,7 @@ interface ExpireTypes {
 export type Expire<T extends string> = { type: T } & (T extends keyof ExpireTypes ? ExpireTypes[T] : {})
 
 export interface LinkOut<T extends string = any> {
+  id: number
   title: string
   expire: T extends any
     ? Expire<'forever'> | Expire<'limited'>
