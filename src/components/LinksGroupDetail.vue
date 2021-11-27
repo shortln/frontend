@@ -7,7 +7,14 @@
       <el-input v-model="lg.name"/>
     </el-form-item>
   </el-form>
-  <el-button type="success" plain v-text="'确认修改'"/>
+  <el-button type="success" plain @click="
+    linkApis.patchLinksGroup(lg.id, lg.name).then(() => {
+      $message.success('修改成功。')
+      $emit('update:modelValue', lg)
+    }).catch(err => {
+      $message.error('修改失败。')
+    })
+  " v-text="'确认修改'"/>
   <div class="title">危险操作</div>
   <div class="danger-area">
     <div class="operate">
@@ -16,12 +23,19 @@
         一旦被删除，它将无法恢复。请确定。
       </div>
       <el-button type="danger" plain @click="
-        linkApis.deleteLinksGroup(lg.id).then(() => {
-          $emit('delete', lg.id)
-          // $message.success('删除成功。')
-        }).catch(err => {
-          $message.error('删除失败。')
-        })
+        $prompt(`请输入分组名称 ${ lg.name }。`, '', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          inputPattern: new RegExp(`^${ lg.name }$`),
+          inputErrorMessage: `请输入分组名称 ${ lg.name }。`
+        }).then(({ value }) => {
+          linkApis.deleteLinksGroup(lg.id).then(() => {
+            $emit('delete', lg.id)
+            $message.success('删除成功。')
+          }).catch(err => {
+            $message.error('删除失败。')
+          })
+        }).catch(() => {})
       " v-text="'确认删除'"/>
     </div>
   </div>
