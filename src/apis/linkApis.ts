@@ -37,5 +37,11 @@ export default new class LinkApis extends AbsApis implements Api {
       return lg
     })
 
+  deleteLinksGroup = (id: number) => this.$h
+    .delete<any, void>(`/groups/${id}`)
+
+  patchLinksGroup = (id: number, name: string) => this.$h
+    .patch<any, void>(`/groups/${id}`, { name })
+
   getLinksGroups = (q: Query) => this.$h.get<any, Pagination<LinksGroupOut>>(`/groups?${queryString.stringify(q)}`)
 }
