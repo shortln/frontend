@@ -56,7 +56,7 @@ const
         return
       }
     }
-  }, 500)
+  }, 50)
 
 watch(activeIndex, nv => {
   location.hash = `#${pageIds[nv]}`
