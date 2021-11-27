@@ -96,6 +96,13 @@ const
     () => ElMessage.success('添加短链接分组成功。')
   )
 
+watch(() => route.name, () => {
+  if (route.name !== 'link-detail') {
+    activeId.value = -1
+    activeGid.value = -1
+  }
+})
+
 watch(linksGroups, lgs => {
   if (route.name === 'link-detail') {
     const { modelValue } = route.params
